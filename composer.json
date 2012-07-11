@@ -1,5 +1,5 @@
 {
-    "name": "phpUnfuddle/phpUnfuddle",
+    "name": "phpunfuddle/phpunfuddle",
     "description": "phpUnfuddle is a PHP wrapper for the RESTful unfuddle API",
     "keywords": ["unfuddle","Software Project Management","REST", "API", "wrapper"],
     "homepage": "https://github.com/markushausammann/phpunfuddle",
