@@ -2,7 +2,7 @@
 
 namespace Unfuddle;
 
-class Unfuddle_Connection
+class Connection
 {
     private $domain;
     private $username;
