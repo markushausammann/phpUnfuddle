@@ -7,14 +7,36 @@ use Exception;
 abstract class Unfuddle_Abstract
 {
 	const URL_SEPARATOR = '/';
-	
+
+    protected $apiString = 'api/v1/';
+
 	protected $connection;
 	protected $baseUrl;
 	
-    public function __construct($connection)
+    public function __construct(Unfuddle_Connection $connection)
     {
         $this->connection 	= $connection;
-        $this->baseUrl		= $this->connection->protocol . $this->connection->domain . $this->connection->apiString;
+        $this->baseUrl		= $this->getProtocol() . $this->trailingSlashFilter($this->connection->getDomain()) . $this->apiString;
+    }
+
+    protected function getProtocol()
+    {
+        if ($this->connection->getSsl())
+        {
+            return 'https://';
+        }
+
+        return 'http://';
+    }
+
+    protected function trailingSlashFilter($url)
+    {
+        if (substr($url, -1) === self::URL_SEPARATOR)
+        {
+            return $url;
+        }
+
+        return trim($url) . self::URL_SEPARATOR;
     }
 
     protected function getHeaders($requestBodyLength)
