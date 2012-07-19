@@ -4,7 +4,7 @@ namespace Unfuddle;
 
 use Exception;
 
-abstract class Unfuddle_Abstract
+abstract class UnfuddleAbstract
 {
 	const URL_SEPARATOR = '/';
 
@@ -13,7 +13,7 @@ abstract class Unfuddle_Abstract
 	protected $connection;
 	protected $baseUrl;
 	
-    public function __construct(Unfuddle_Connection $connection)
+    public function __construct(Connection $connection)
     {
         $this->connection 	= $connection;
         $this->baseUrl		= $this->getProtocol() . $this->trailingSlashFilter($this->connection->getDomain()) . $this->apiString;

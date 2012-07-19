@@ -2,7 +2,7 @@
 
 namespace Unfuddle;
 
-class Ticket extends Unfuddle_Abstract
+class Ticket extends UnfuddleAbstract
 {
 	protected $urlPart = 'projects/%s/tickets.xml';
     protected $requestUri;
