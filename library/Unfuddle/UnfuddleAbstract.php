@@ -4,21 +4,39 @@ namespace Unfuddle;
 
 use Exception;
 
+/**
+ * Abstract class for Unfuddle API objects
+ */
 abstract class UnfuddleAbstract
 {
-	const URL_SEPARATOR = '/';
+    const URL_SEPARATOR = '/';
 
+    /**
+     * @var string
+     */
     protected $apiString = 'api/v1/';
 
-	protected $connection;
-	protected $baseUrl;
-	
+    /**
+     * @var Connection
+     */
+    protected $connection;
+    /**
+     * @var string
+     */
+    protected $baseUrl;
+
+    /**
+     * @param Connection $connection
+     */
     public function __construct(Connection $connection)
     {
         $this->connection 	= $connection;
         $this->baseUrl		= $this->getProtocol() . $this->trailingSlashFilter($this->connection->getDomain()) . $this->apiString;
     }
 
+    /**
+     * @return string
+     */
     protected function getProtocol()
     {
         if ($this->connection->getSsl())
@@ -29,6 +47,10 @@ abstract class UnfuddleAbstract
         return 'http://';
     }
 
+    /**
+     * @param $url
+     * @return string
+     */
     protected function trailingSlashFilter($url)
     {
         if (substr($url, -1) === self::URL_SEPARATOR)
@@ -39,6 +61,10 @@ abstract class UnfuddleAbstract
         return trim($url) . self::URL_SEPARATOR;
     }
 
+    /**
+     * @param $requestBodyLength
+     * @return array
+     */
     protected function getHeaders($requestBodyLength)
     {
         $headers[] = "MIME-Version: 1.0";
@@ -50,6 +76,10 @@ abstract class UnfuddleAbstract
         return $headers;
     }
 
+    /**
+     * @param $response
+     * @throws \Exception
+     */
     protected function testHttpStatusCode($response)
     {
          // Get HTTP Status code from the response
@@ -88,6 +118,10 @@ abstract class UnfuddleAbstract
     }
     
  	// from http://php.oregonstate.edu/manual/en/function.http-parse-headers.php#77241
+    /**
+     * @param $header
+     * @return array
+     */
     protected function httpParseHeaders($header)
     {
         $retVal = array();
@@ -112,6 +146,10 @@ abstract class UnfuddleAbstract
     }
     
     // from http://us2.php.net/manual/en/function.htmlentities.php#78371
+    /**
+     * @param $str
+     * @return mixed
+     */
     protected function XMLStringFormat($str)
     {
         $str = str_replace("&", "&amp;", $str); 
@@ -124,21 +162,33 @@ abstract class UnfuddleAbstract
         return $str;
     }
 
+    /**
+     * @param $baseUrl
+     */
     public function setBaseUrl($baseUrl)
     {
         $this->baseUrl = $baseUrl;
     }
 
+    /**
+     * @return string
+     */
     public function getBaseUrl()
     {
         return $this->baseUrl;
     }
 
+    /**
+     * @param $connection
+     */
     public function setConnection($connection)
     {
         $this->connection = $connection;
     }
 
+    /**
+     * @return Connection
+     */
     public function getConnection()
     {
         return $this->connection;
