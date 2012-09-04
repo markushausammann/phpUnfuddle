@@ -17,14 +17,15 @@ class Ticket extends UnfuddleAbstract
 
     public function __construct($connection, $projectID)
     {
-        $this->setRequestUri($projectID);
         parent::__construct($connection);
+        $this->setRequestUri($projectID);
     }
 
-    public function setup($assigneeID, $summary)
+    public function setup($assigneeID, $summary, $description = '')
     {
         $this->setAssigneeID($assigneeID);
         $this->setSummary($summary);
+        $this->setDescription($description);
 
         $this->requestBody = sprintf(
             '<ticket>
@@ -32,6 +33,7 @@ class Ticket extends UnfuddleAbstract
                 <description-format>%s</description-format>
                 <status>%s</status>
                 <priority>%s</priority>
+                <status>%s</status>
                 <summary>%s</summary>
                 <description>%s</description>
             </ticket>',
@@ -39,8 +41,11 @@ class Ticket extends UnfuddleAbstract
             $this->descriptionFormat,
             $this->status,
             $this->priority,
+            $this->status,
             $this->XMLStringFormat($this->summary),
             $this->XMLStringFormat($this->description));
+
+        return $this;
     }
 
     public function create()
@@ -51,9 +56,10 @@ class Ticket extends UnfuddleAbstract
         curl_setopt($curlHandle, CURLOPT_URL, $this->requestUri);
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curlHandle, CURLOPT_HEADER, true);
-        curl_setopt($curlHandle, CURLOPT_USERPWD, $this->connection->auth);
+        curl_setopt($curlHandle, CURLOPT_USERPWD, $this->connection->getUsername() . ':' . $this->connection->getPassword());
         curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST,'POST');
-        curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $requestHeaders);
+        curl_setopt($curlHandle, CURLOPT_POST, true);
+        curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $this->requestBody);
         curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, false);
 
         curl_setopt($curlHandle, CURLOPT_HTTPHEADER, $requestHeaders);

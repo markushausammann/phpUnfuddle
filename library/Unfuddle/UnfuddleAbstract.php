@@ -86,10 +86,16 @@ abstract class UnfuddleAbstract
         $statusCode = array();
         preg_match('/\d\d\d/', $response, $statusCode);
 
-        switch( $statusCode[0])
+        switch($statusCode[0])
         {
             case 200:
-                // created successfully
+                // general OK
+                break;
+            case 201:
+                // resource created
+                break;
+            case 202:
+                // accepted
                 break;
             case 401:
                 throw new Exception('Unauthorized (401): The credentials specified via HTTP Basic Authentication were invalid.');
