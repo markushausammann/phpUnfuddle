@@ -7,26 +7,14 @@ class Connection
     private $domain;
     private $username;
     private $password;
-    private $apiKey;
     private $ssl;
 
-    public function __construct($domain, $username, $password, $apiKey, $ssl = true)
+    public function __construct($domain, $username, $password, $ssl = true)
     {
         $this->domain = $domain;
         $this->username = $username;
         $this->password = $password;
-        $this->apiKey = $apiKey;
         $this->ssl = $ssl;
-    }
-
-    public function setApiKey($apiKey)
-    {
-        $this->apiKey = $apiKey;
-    }
-
-    public function getApiKey()
-    {
-        return $this->apiKey;
     }
 
     public function setDomain($domain)

@@ -123,32 +123,27 @@ abstract class UnfuddleAbstract
         }
     }
     
- 	// from http://php.oregonstate.edu/manual/en/function.http-parse-headers.php#77241
+ 	// from http://www.php.net/manual/en/function.http-parse-headers.php#112917
     /**
-     * @param $header
+     * @param bool $rawHeaders
      * @return array
      */
-    protected function httpParseHeaders($header)
+    protected function httpParseHeaders($rawHeaders = false)
     {
-        $retVal = array();
-        $fields = explode("\r\n", preg_replace('/\x0D\x0A[\x09\x20]+/', ' ', $header));
-        
-        foreach( $fields as $field ) 
-        {
-            if( preg_match('/([^:]+): (.+)/m', $field, $match) ) 
-            {
-                $match[1] = preg_replace('/(?<=^|[\x09\x20\x2D])./e', 'strtoupper("\0")', strtolower(trim($match[1])));
-                if( isset($retVal[$match[1]]) ) 
-                {
-                    $retVal[$match[1]] = array($retVal[$match[1]], $match[2]);
-                }
-                else 
-                {
-                    $retVal[$match[1]] = trim($match[2]);
-                }
+        if($rawHeaders === false){
+            return false;
+        }
+        $headers = [];
+
+        foreach (explode("\n", $rawHeaders) as $i => $h) {
+            $h = explode(':', $h, 2);
+
+            if (isset($h[1])) {
+                $headers[$h[0]] = trim($h[1]);
             }
         }
-        return $retVal;
+
+        return $headers;
     }
     
     // from http://us2.php.net/manual/en/function.htmlentities.php#78371
