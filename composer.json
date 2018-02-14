@@ -1,15 +1,14 @@
 {
     "name": "phpunfuddle/phpunfuddle",
-    "description": "phpUnfuddle is a PHP wrapper for the RESTful unfuddle API",
+    "description": "phpUnfuddle was supposed to be a PHP wrapper for the RESTful unfuddle API, now it's just a ticket posting script.",
     "keywords": ["unfuddle","Software Project Management","REST", "API", "wrapper"],
     "homepage": "https://github.com/markushausammann/phpunfuddle",
     "type": "library",
-    "license": "New BSD License",
+    "license": "WTFPL",
     "authors": [
         {
             "name": "Markus Hausammann",
-            "email": "markus.hausammann@cloud-solutions.net",
-            "homepage": "http://markushausammann.ch"
+            "email": "markus.hausammann@brightanswer.ch"
         }
     ],
     "require": {
